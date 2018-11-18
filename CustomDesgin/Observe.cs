@@ -9,14 +9,14 @@ namespace CustomDesign
     {
         List<CustomType> List = new List<CustomType>();
 
-        public bool Add(CustomType Item)
+        public CustomType Add(CustomType Item)
         {
             List.Add(Item);
-            return true;
+            return Item;
         }
-        public bool Add(Object Item)
+        public CustomType Add(Object Item, string Name)
         {
-            return Add(new CustomType(Item));
+            return Add(new CustomType(Item, Name));
         }
         
         public bool Delete(Object Item)
@@ -35,6 +35,7 @@ namespace CustomDesign
         }
 
         public CustomType this[int index] => List[index];
+        public CustomType this[string Name] => List.First(i => i.Name == Name);
 
         public T2 Change<T1, T2>(T1 t1, T2 t2)
         {
@@ -48,7 +49,7 @@ namespace CustomDesign
         }
         public (PropertyInfo, CustomType) GetProperty(CustomType obj, string Name, BindingFlags flags = BindingFlags.Public | BindingFlags.Instance)
         {
-            var data = obj.Type.GetProperty(Name, flags);
+            var data = obj.Type.GetProperty(Name, flags);   
             return (data, new CustomType(data.GetValue(obj.Value)));
         }
 
