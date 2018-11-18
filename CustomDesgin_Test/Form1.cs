@@ -1,27 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CustomDesign;
+using System;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace CustomDesgin_Test
 {
     public partial class Form1 : Form
     {
-        CustomDesign.Observe observer = new CustomDesign.Observe();
+        Observe observer = new Observe();
         public Form1()
         {
             InitializeComponent();
 
-            observer.Add(textBox1);
-            observer.Add(textBox2);
+            observer.Add(this);
+        }
 
-            var t = textBox1.GetType().GetProperty("Text");
-            observer.Change();
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var p = observer.GetField(observer[0], textBox3.Text, BindingFlags.Instance | BindingFlags.NonPublic);
+            var t = observer.GetProperty(p.Item2, "Text");
+            t.Item1.SetValue(p.Item2.Value, textBox4.Text);
         }
     }
 }
