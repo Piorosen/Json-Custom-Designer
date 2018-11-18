@@ -12,10 +12,16 @@ namespace CustomDesgin_Test
 {
     public partial class Form1 : Form
     {
+        CustomDesign.Observe observer = new CustomDesign.Observe();
         public Form1()
         {
             InitializeComponent();
 
+            observer.Add(textBox1);
+            observer.Add(textBox2);
+
+            var t = textBox1.GetType().GetProperty("Text");
+            observer.Change();
         }
     }
 }

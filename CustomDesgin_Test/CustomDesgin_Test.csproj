@@ -54,6 +54,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -77,13 +80,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CustomDesgin_NetFramework\CustomDesgin_NetFramework.csproj">
+    <ProjectReference Include="..\CustomDesgin_NetFramework\CustomDesgin.csproj">
       <Project>{53e40dd1-aa4d-452a-9bbf-a118f51b5c7c}</Project>
-      <Name>CustomDesgin_NetFramework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CustomDesgin_Standard\CustomDesgin_Standard.csproj">
-      <Project>{1202d0f4-9177-473c-9e09-8905c837e7bd}</Project>
-      <Name>CustomDesgin_Standard</Name>
+      <Name>CustomDesgin</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -7,8 +7,8 @@
     <ProjectGuid>{53E40DD1-AA4D-452A-9BBF-A118F51B5C7C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CustomDesgin_NetFramework</RootNamespace>
-    <AssemblyName>CustomDesgin_NetFramework</AssemblyName>
+    <RootNamespace>CustomDesign</RootNamespace>
+    <AssemblyName>CustomDesign</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -45,8 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
-    <Compile Include="Class2.cs" />
+    <Compile Include="Observe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Type.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
