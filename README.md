@@ -1,1 +1,3 @@
-# Custom-Design-WinForm
+# Customize Desginer
+
+## .Net 4.6 Targeting.
