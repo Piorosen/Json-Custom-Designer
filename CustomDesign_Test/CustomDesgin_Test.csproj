@@ -80,7 +80,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CustomDesgin\CustomDesgin.csproj">
+    <ProjectReference Include="..\CustomDesign\CustomDesgin.csproj">
       <Project>{53e40dd1-aa4d-452a-9bbf-a118f51b5c7c}</Project>
       <Name>CustomDesgin</Name>
     </ProjectReference>
