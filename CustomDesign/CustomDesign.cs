@@ -33,7 +33,7 @@ namespace CustomDesign
             return true;
         }
 
-        JToken SelectCode(JToken token)
+        void SelectCode(JToken token)
         {
             JProperty p = token.ToObject<JProperty>();
             if (p.Name == "Field")
@@ -41,8 +41,7 @@ namespace CustomDesign
                 foreach (var to in token.Children().Children())
                 {
                     CustomType type = TypeStack.Peek();
-                    var t = GetField(to, type);
-                    TypeStack.Push(t.Item2);
+                    TypeStack.Push(GetField(to, type));
                     foreach (var to2 in to)
                     {
                         SelectCode(to2);
@@ -56,8 +55,7 @@ namespace CustomDesign
                 foreach (var to in token.Children().Children())
                 {
                     CustomType type = TypeStack.Peek();
-                    var t = GetProperty(to, type);
-                    TypeStack.Push(t.Item2);
+                    TypeStack.Push(GetProperty(to, type));
                     foreach (var to2 in to)
                     {
                         SelectCode(to2);
@@ -78,31 +76,30 @@ namespace CustomDesign
                     TypeStack.Push(t);
                 }
             }
-            return token;
         }
 
-        public (JToken, CustomType) GetField(JToken token, CustomType type)
+        public CustomType GetField(JToken token, CustomType type)
         {
             var name = token["Name"].ToString();
             var tmp = Observe.GetField(type, name, BindingFlags.NonPublic | BindingFlags.Instance);
-            CustomType w = new CustomType(tmp.Item1, tmp.Item2.Value, type.Name + name);
+            CustomType w = new CustomType(tmp.Item1, tmp.Item2.Value);
             foreach (var t in token.Children())
             {
-                return (t.First, w);
+                return w;
             }
-            return (null, w);
+            return w;
         }
 
-        public (JToken, CustomType) GetProperty(JToken token, CustomType type)
+        public CustomType GetProperty(JToken token, CustomType type)
         {
             var name = token["Name"].ToString();
             var tmp = Observe.GetProperty(type, name, BindingFlags.Public | BindingFlags.Instance);
-            CustomType w = new CustomType(tmp.Item1, tmp.Item2.Value, type.Name + name);
+            CustomType w = new CustomType(tmp.Item1, tmp.Item2.Value);
             foreach (var t in token.Children())
             {
-                return (t.First, w);
+                return w;
             }
-            return (null, w);
+            return w;
         }
 
     }

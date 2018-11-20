@@ -1,31 +1,28 @@
 ﻿using System;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace CustomDesign
 {
-    public class CustomType 
+    public class CustomType
     {
-        public CustomType(Object Info, Object value, string Name)
+        public CustomType(Object Info, Object value) 
         {
             if (Info is PropertyInfo)
             {
                 Property = (PropertyInfo)Info;
-            }else if (Info is FieldInfo)
+            } else if (Info is FieldInfo)
             {
                 Field = (FieldInfo)Info;
             }
             Value = value;
-            GUID = Guid.NewGuid();
-            this.Name = Name;
         }
-        public CustomType(Object value, string Name = "")
+        public CustomType(Object value, [CallerMemberName] string Name = "")
         {
             Value = value;
-            GUID = Guid.NewGuid();
             this.Name = Name;
         }
-        public readonly string Name;
-        public readonly Guid GUID;
+        public String Name = null;
         public Type Type => Value?.GetType();
         public Object Value { get; set; }
 

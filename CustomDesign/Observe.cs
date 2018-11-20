@@ -25,7 +25,7 @@ namespace CustomDesign
         }
         public bool Delete(CustomType Item)
         {
-            var t = List.First(i => i.GUID == Item.GUID);
+            var t = List.First(i => i.Name  == Item.Name);
             if (t != null)
             {
                 List.Remove(t);

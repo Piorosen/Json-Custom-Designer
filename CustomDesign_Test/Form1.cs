@@ -16,7 +16,7 @@ namespace CustomDesgin_Test
 
         private void button1_Click(object sender, EventArgs e)
         {
-            design.Observe.Add(this, this.Name);
+            design.Observe.Add(this, Name);
             design.LoadJson(textBox5.Text);
         }
 
