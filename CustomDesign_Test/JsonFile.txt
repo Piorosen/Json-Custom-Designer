@@ -1,11 +1,18 @@
 [{
 	"Name": "Form1",
-	"Field": {
-		"Name": "textBox1",
-		"Property": {
+	"Field": [{
+		"Name": "textBox2",
+		"Property": [{
 			"Name": "Text",
-			"Type":"System.String",
-			"Value": "Test"
-		}
-	}
+			"Type": "System.String",
+			"Value": "T222st"
+		}]
+	}, {
+		"Name": "textBox3",
+		"Property": [{
+			"Name": "Text",
+			"Type": "System.String",
+			"Value": "123asd"
+		}]
+	}]
 }]
