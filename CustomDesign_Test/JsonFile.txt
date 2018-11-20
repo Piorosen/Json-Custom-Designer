@@ -4,6 +4,7 @@
 		"Name": "textBox1",
 		"Property": {
 			"Name": "Text",
+			"Type":"System.String",
 			"Value": "Test"
 		}
 	}

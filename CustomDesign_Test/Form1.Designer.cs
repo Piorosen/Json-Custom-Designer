@@ -54,21 +54,21 @@
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(390, 87);
+            this.textBox3.Location = new System.Drawing.Point(284, 32);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(239, 21);
             this.textBox3.TabIndex = 2;
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(390, 125);
+            this.textBox4.Location = new System.Drawing.Point(284, 70);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(239, 21);
             this.textBox4.TabIndex = 3;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(390, 242);
+            this.button1.Location = new System.Drawing.Point(503, 371);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(239, 23);
             this.button1.TabIndex = 4;
@@ -98,8 +98,9 @@
             // textBox5
             // 
             this.textBox5.Location = new System.Drawing.Point(390, 162);
+            this.textBox5.Multiline = true;
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(239, 21);
+            this.textBox5.Size = new System.Drawing.Size(352, 203);
             this.textBox5.TabIndex = 7;
             // 
             // Form1
@@ -117,6 +118,7 @@
             this.Controls.Add(this.textBox1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

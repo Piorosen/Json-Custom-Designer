@@ -17,7 +17,12 @@ namespace CustomDesgin_Test
         private void button1_Click(object sender, EventArgs e)
         {
             design.Observe.Add(this, this.Name);
-            design.LoadJson(@"C:\Users\aoika\Desktop\git\Custom-Design-WinForm\CustomDesgin_Test\JsonFile.txt");
+            design.LoadJson(@"C:\Users\aoika\Desktop\git\Custom-Design-WinForm\CustomDesign_Test\JsonFile.txt");
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

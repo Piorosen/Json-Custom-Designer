@@ -14,44 +14,83 @@ namespace CustomDesign
     {
         public Observe Observe = new Observe();
 
-        public bool LoadJson(string Path)
-        {
-            string data = string.Empty;
+        Stack<CustomType> TypeStack = new Stack<CustomType>();
 
-            using (StreamReader stream = new StreamReader(Path))
-            {
-                data = stream.ReadToEnd();
-            }
+        public bool LoadJson(string data)
+        {
             JArray list = JArray.Parse(data);
 
             for (int i = 0; i < list.Count; i++)
             {
                 var Type = Observe[list[i]["Name"].ToString()];
                 var Enum = list[i].Children();
-
-
-                foreach (var datas in Enum)
+                TypeStack.Push(Type);
+                foreach (var token in Enum)
                 {
-                    JProperty p = datas.ToObject<JProperty>();
-                    if (p.Name == "Field")
-                    {
-                        var name = datas.First["Name"].ToString();
-                        CustomType w = new CustomType(Observe.GetField(Type, name, BindingFlags.NonPublic | BindingFlags.Instance).Item2.Value, Type.Name + name);
-                        foreach (var data2 in datas.Values())
-                        {
-                            JProperty p2 = data2.ToObject<JProperty>();
-                            if (p2.Name == "Property")
-                            {
-                                var name2 = data2.First["Name"].ToString();
-                                var tmp = Observe.GetProperty(w, name2, BindingFlags.Public | BindingFlags.Instance);
-                                tmp.Item1.SetValue(w.Value, data2.First["Value"].ToString());
-                            }
-                        }
-                    }
-
+                    SelectCode(token);
                 }
             }
             return true;
+        }
+
+        JToken SelectCode(JToken token)
+        {
+            JProperty p = token.ToObject<JProperty>();
+            if (p.Name != "Name")
+            {
+                if (p.Name == "Field")
+                {
+                    CustomType type = TypeStack.Peek();
+                    var t = GetField(token, type);
+                    TypeStack.Push(t.Item2);
+                    SelectCode(t.Item1.Next);
+                }
+                else if (p.Name == "Property")
+                {
+                    CustomType type = TypeStack.Peek();
+                    var t = GetProperty(token, type);
+                    TypeStack.Push(t.Item2);
+                    SelectCode(t.Item1.Next);
+                }
+                else if (p.Name == "Type")
+                {
+                    var type = Type.GetType(p.Value.ToString());
+                    var data = token.Next.ToObject<JProperty>();
+                    if (data.Name == "Value")
+                    {
+                        var t = TypeStack.Pop();
+                        t.Field?.SetValue(t.Value, Convert.ChangeType(data.Value, type));
+                        t.Property?.SetValue(TypeStack.Peek().Value, Convert.ChangeType(data.Value, type));
+                        TypeStack.Push(t);
+                    }
+                }
+                TypeStack.Pop();
+            }
+            return token;
+        }
+
+        public (JToken, CustomType) GetField(JToken token, CustomType type)
+        {
+            var name = token.First["Name"].ToString();
+            var tmp = Observe.GetField(type, name, BindingFlags.NonPublic | BindingFlags.Instance);
+            CustomType w = new CustomType(tmp.Item1, tmp.Item2.Value, type.Name + name);
+            foreach (var t in token.Children())
+            {
+                return (t.First, w);
+            }
+            return (null, w);
+        }
+
+        public (JToken, CustomType) GetProperty(JToken token, CustomType type)
+        {
+            var name = token.First["Name"].ToString();
+            var tmp = Observe.GetProperty(type, name, BindingFlags.Public | BindingFlags.Instance);
+            CustomType w = new CustomType(tmp.Item1, tmp.Item2.Value, type.Name + name);
+            foreach (var t in token.Children())
+            {
+                return (t.First, w);
+            }
+            return (null, w);
         }
 
     }
