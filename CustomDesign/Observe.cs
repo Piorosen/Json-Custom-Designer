@@ -45,12 +45,26 @@ namespace CustomDesign
         public (FieldInfo, CustomType) GetField(CustomType obj, string Name, BindingFlags flags = BindingFlags.Public | BindingFlags.Instance)
         {
             var data = obj.Type.GetField(Name, flags);
-            return (data, new CustomType(data.GetValue(obj.Value)));
+            try
+            {
+                return (data, new CustomType(data.GetValue(obj.Value)));
+            }
+            catch (Exception)
+            {
+                return (null, null);
+            }
         }
         public (PropertyInfo, CustomType) GetProperty(CustomType obj, string Name, BindingFlags flags = BindingFlags.Public | BindingFlags.Instance)
         {
-            var data = obj.Type.GetProperty(Name, flags);   
-            return (data, new CustomType(data.GetValue(obj.Value)));
+            var data = obj.Type.GetProperty(Name, flags);
+            try
+            {
+                return (data, new CustomType(data.GetValue(obj.Value)));
+            }
+            catch (Exception)
+            {
+                return (null, null);
+            }
         }
 
 

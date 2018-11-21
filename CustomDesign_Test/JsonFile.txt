@@ -1,18 +1,11 @@
 [{
 	"Name": "Form1",
-	"Field": [{
-		"Name": "textBox2",
-		"Property": [{
-			"Name": "Text",
-			"Type": "System.String",
-			"Value": "T222st"
-		}]
-	}, {
-		"Name": "textBox3",
-		"Property": [{
-			"Name": "Text",
-			"Type": "System.String",
-			"Value": "123asd"
+	"Property":[{
+		"Name":"BackColor",
+		"Property":[{
+			"Name":"R",
+			"Type":"System.Byte",
+			"Value","255"
 		}]
 	}]
 }]

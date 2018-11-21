@@ -11,7 +11,8 @@ namespace CustomDesgin_Test
 
         public Form1()
         {
-            InitializeComponent();            
+           
+            InitializeComponent();
         }
 
         private void button1_Click(object sender, EventArgs e)

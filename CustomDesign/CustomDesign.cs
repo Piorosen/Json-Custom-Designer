@@ -71,7 +71,7 @@ namespace CustomDesign
                 if (data.Name == "Value")
                 {
                     var t = TypeStack.Pop();
-                    t.Field?.SetValue(t.Value, Convert.ChangeType(data.Value, type));
+                    t.Field?.SetValue(TypeStack.Peek().Value, Convert.ChangeType(data.Value, type));
                     t.Property?.SetValue(TypeStack.Peek().Value, Convert.ChangeType(data.Value, type));
                     TypeStack.Push(t);
                 }
@@ -82,6 +82,10 @@ namespace CustomDesign
         {
             var name = token["Name"].ToString();
             var tmp = Observe.GetField(type, name, BindingFlags.NonPublic | BindingFlags.Instance);
+            if (tmp.Item2 == null)
+            {
+                tmp = Observe.GetField(type, name, BindingFlags.Public | BindingFlags.Instance);
+            }
             CustomType w = new CustomType(tmp.Item1, tmp.Item2.Value);
             foreach (var t in token.Children())
             {
@@ -93,7 +97,11 @@ namespace CustomDesign
         public CustomType GetProperty(JToken token, CustomType type)
         {
             var name = token["Name"].ToString();
-            var tmp = Observe.GetProperty(type, name, BindingFlags.Public | BindingFlags.Instance);
+            var tmp = Observe.GetProperty(type, name, BindingFlags.NonPublic | BindingFlags.Instance);
+            if (tmp.Item2 == null)
+            {
+                tmp = Observe.GetProperty(type, name, BindingFlags.Public | BindingFlags.Instance);
+            }
             CustomType w = new CustomType(tmp.Item1, tmp.Item2.Value);
             foreach (var t in token.Children())
             {
