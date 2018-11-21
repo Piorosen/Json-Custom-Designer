@@ -29,6 +29,7 @@ namespace CustomDesign
                 {
                     SelectCode(token);
                 }
+                TypeStack.Pop();
             }
             return true;
         }
