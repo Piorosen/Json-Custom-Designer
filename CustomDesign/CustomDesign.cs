@@ -47,7 +47,7 @@ namespace CustomDesign
             
             if (JpToken.Name == "Field")
             {
-                foreach (var internalField in token.Children().Children())
+                foreach (var internalField in JpToken.Children().Children())
                 {
                     CustomType type = TypeStack.Peek();
                     TypeStack.Push(GetField(internalField, type));
@@ -61,7 +61,7 @@ namespace CustomDesign
             }
             else if (JpToken.Name == "Property")
             {
-                foreach (var internalProperty in token.Children().Children())
+                foreach (var internalProperty in JpToken.Children().Children())
                 {
                     CustomType type = TypeStack.Peek();
                     TypeStack.Push(GetProperty(internalProperty, type));
@@ -72,28 +72,25 @@ namespace CustomDesign
                     TypeStack.Pop();
                 }
             }
-            else if (JpToken.Name == "Type")
+            else if (JpToken.Name == "Value" || JpToken.Name == "Constructor")
             {
-                token = token.Next;
                 var customType = TypeStack.Pop();
-
-                var TokenInfo = token.ToObject<JProperty>();
+                
                 var type = customType.Value.GetType();
-
                 object value = null;
 
-                if (TokenInfo.Name == "Value")
+                if (JpToken.Name == "Value")
                 {
-                    value = Convert.ChangeType(TokenInfo.Value, type);
+                    value = Convert.ChangeType(JpToken.Value, type);
                 }
-                else if (TokenInfo.Name == "Constructor")
+                else if (JpToken.Name == "Constructor")
                 {
                     var ConType = new List<Type>();
                     
                     List<Type> listType = new List<Type>();
                     List<object> listArg = new List<object>();
 
-                    foreach (var item in token.Children().Children())
+                    foreach (var item in JpToken.Children().Children())
                     {
                         var internalProperty = item.ToObject<JProperty>();
                         var types = Type.GetType(internalProperty.Name.Split('$')[0]);
