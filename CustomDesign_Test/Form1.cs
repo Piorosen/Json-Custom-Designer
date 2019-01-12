@@ -29,8 +29,6 @@ namespace CustomDesgin_Test
 
         private void button2_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(this.Size.GetType().FullName);
-            Clipboard.SetText(this.Size.GetType().FullName);
         }
     }
 }
