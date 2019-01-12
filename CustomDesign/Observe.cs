@@ -7,7 +7,7 @@ namespace CustomDesign
 {
     public class Observe
     {
-        List<CustomType> List = new List<CustomType>();
+        readonly List<CustomType> List = new List<CustomType>();
 
         public CustomType Add(CustomType Item)
         {
@@ -42,7 +42,7 @@ namespace CustomDesign
             return (T2)Convert.ChangeType(t1, t2.GetType()) ;
         }
 
-        public (FieldInfo, CustomType) GetField(CustomType obj, string Name, BindingFlags flags = BindingFlags.Public | BindingFlags.Instance)
+        public (FieldInfo Field, CustomType Type) GetField(CustomType obj, string Name, BindingFlags flags = BindingFlags.Public | BindingFlags.Instance)
         {
             var data = obj.Type.GetField(Name, flags);
             try
@@ -54,7 +54,7 @@ namespace CustomDesign
                 return (null, null);
             }
         }
-        public (PropertyInfo, CustomType) GetProperty(CustomType obj, string Name, BindingFlags flags = BindingFlags.Public | BindingFlags.Instance)
+        public (PropertyInfo Property, CustomType Type) GetProperty(CustomType obj, string Name, BindingFlags flags = BindingFlags.Public | BindingFlags.Instance)
         {
             var data = obj.Type.GetProperty(Name, flags);
             try

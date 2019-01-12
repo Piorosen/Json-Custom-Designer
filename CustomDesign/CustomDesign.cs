@@ -13,8 +13,7 @@ namespace CustomDesign
     public class CustomDesign
     {
         public Observe Observe = new Observe();
-
-        Stack<CustomType> TypeStack = new Stack<CustomType>();
+        readonly Stack<CustomType> TypeStack = new Stack<CustomType>();
 
         public bool LoadJson(string data)
         {
@@ -69,12 +68,27 @@ namespace CustomDesign
                 var type = Type.GetType(p.Value.ToString());
                 token = token.Next;
                 var data = token.ToObject<JProperty>();
+
+
+                
                 if (data.Name == "Value")
                 {
                     var t = TypeStack.Pop();
                     t.Field?.SetValue(TypeStack.Peek().Value, Convert.ChangeType(data.Value, type));
                     t.Property?.SetValue(TypeStack.Peek().Value, Convert.ChangeType(data.Value, type));
                     TypeStack.Push(t);
+                }
+                else if (data.Name == "Constructor")
+                {
+                    ConstructorInfo constructor = type.GetConstructor(new[] { typeof(int) });
+                    var ConType = new List<Type>();
+
+                    var t = p.Children();
+
+                    foreach (var item in t)
+                    {
+
+                    }
                 }
             }
         }
@@ -83,11 +97,11 @@ namespace CustomDesign
         {
             var name = token["Name"].ToString();
             var tmp = Observe.GetField(type, name, BindingFlags.NonPublic | BindingFlags.Instance);
-            if (tmp.Item2 == null)
+            if (tmp.Type == null)
             {
                 tmp = Observe.GetField(type, name, BindingFlags.Public | BindingFlags.Instance);
             }
-            CustomType w = new CustomType(tmp.Item1, tmp.Item2.Value);
+            CustomType w = new CustomType(tmp.Field, tmp.Type.Value);
             foreach (var t in token.Children())
             {
                 return w;
@@ -99,11 +113,11 @@ namespace CustomDesign
         {
             var name = token["Name"].ToString();
             var tmp = Observe.GetProperty(type, name, BindingFlags.NonPublic | BindingFlags.Instance);
-            if (tmp.Item2 == null)
+            if (tmp.Type == null)
             {
                 tmp = Observe.GetProperty(type, name, BindingFlags.Public | BindingFlags.Instance);
             }
-            CustomType w = new CustomType(tmp.Item1, tmp.Item2.Value);
+            CustomType w = new CustomType(tmp.Property, tmp.Type.Value);
             foreach (var t in token.Children())
             {
                 return w;
