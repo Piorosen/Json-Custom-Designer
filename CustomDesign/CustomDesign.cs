@@ -17,7 +17,15 @@ namespace CustomDesign
 
         public bool LoadJson(string data)
         {
-            JArray list = JArray.Parse(data);
+            JArray list;
+            try
+            {
+                list = JArray.Parse(data);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
 
             for (int i = 0; i < list.Count; i++)
             {
@@ -36,6 +44,7 @@ namespace CustomDesign
         void SelectCode(JToken token)
         {
             JProperty p = token.ToObject<JProperty>();
+            
             if (p.Name == "Field")
             {
                 foreach (var to in token.Children().Children())
@@ -65,31 +74,44 @@ namespace CustomDesign
             }
             else if (p.Name == "Type")
             {
-                var type = Type.GetType(p.Value.ToString());
-                token = token.Next;
-                var data = token.ToObject<JProperty>();
-
-
                 
+                token = token.Next;
+                
+                var data = token.ToObject<JProperty>();
+                var customType = TypeStack.Pop();
+                var type = customType.Value.GetType();
+
+
                 if (data.Name == "Value")
                 {
-                    var t = TypeStack.Pop();
-                    t.Field?.SetValue(TypeStack.Peek().Value, Convert.ChangeType(data.Value, type));
-                    t.Property?.SetValue(TypeStack.Peek().Value, Convert.ChangeType(data.Value, type));
-                    TypeStack.Push(t);
+                    var value = Convert.ChangeType(data.Value, type);
+                    customType.Field?.SetValue(TypeStack.Peek().Value, value);
+                    customType.Property?.SetValue(TypeStack.Peek().Value, value);
                 }
                 else if (data.Name == "Constructor")
                 {
-                    ConstructorInfo constructor = type.GetConstructor(new[] { typeof(int) });
                     var ConType = new List<Type>();
 
-                    var t = p.Children();
+                    var t = token.Children();
+                    List<Type> listType = new List<Type>();
+                    List<object> listArg = new List<object>();
 
-                    foreach (var item in t)
+                    foreach (var item in t.Children())
                     {
+                        var internalProperty = item.ToObject<JProperty>();
+                        var types = Type.GetType(internalProperty.Name.Split('$')[0]);
 
+                        listType.Add(types);
+                        listArg.Add(Convert.ChangeType(internalProperty.Value, types));
                     }
+
+                    ConstructorInfo constructor = type.GetConstructor(listType.ToArray());
+                    var value = Convert.ChangeType(constructor?.Invoke(listArg.ToArray()), type);
+
+                    customType.Field?.SetValue(TypeStack.Peek().Value, value);
+                    customType.Property?.SetValue(TypeStack.Peek().Value, value);
                 }
+                TypeStack.Push(customType);
             }
         }
 
@@ -124,6 +146,5 @@ namespace CustomDesign
             }
             return w;
         }
-
     }
 }

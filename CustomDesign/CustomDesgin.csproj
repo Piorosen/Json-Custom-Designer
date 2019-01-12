@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,7 +48,7 @@
     <Compile Include="CustomDesign.cs" />
     <Compile Include="Observe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Type.cs" />
+    <Compile Include="CustomType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

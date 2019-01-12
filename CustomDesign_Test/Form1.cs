@@ -11,7 +11,8 @@ namespace CustomDesgin_Test
 
         public Form1()
         {
-           
+
+
             InitializeComponent();
             design.Observe.Add(this, Name);
         }
@@ -24,6 +25,12 @@ namespace CustomDesgin_Test
 
         private void Form1_Load(object sender, EventArgs e)
         {
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(this.Size.GetType().FullName);
+            Clipboard.SetText(this.Size.GetType().FullName);
         }
     }
 }
