@@ -43,60 +43,57 @@ namespace CustomDesign
 
         void SelectCode(JToken token)
         {
-            JProperty p = token.ToObject<JProperty>();
+            JProperty JpToken = token.ToObject<JProperty>();
             
-            if (p.Name == "Field")
+            if (JpToken.Name == "Field")
             {
-                foreach (var to in token.Children().Children())
+                foreach (var internalField in token.Children().Children())
                 {
                     CustomType type = TypeStack.Peek();
-                    TypeStack.Push(GetField(to, type));
-                    foreach (var to2 in to)
+                    TypeStack.Push(GetField(internalField, type));
+                    foreach (var nextToken in internalField)
                     {
-                        SelectCode(to2);
+                        SelectCode(nextToken);
                     }
                     TypeStack.Pop();
                 }
 
             }
-            else if (p.Name == "Property")
+            else if (JpToken.Name == "Property")
             {
-                foreach (var to in token.Children().Children())
+                foreach (var internalProperty in token.Children().Children())
                 {
                     CustomType type = TypeStack.Peek();
-                    TypeStack.Push(GetProperty(to, type));
-                    foreach (var to2 in to)
+                    TypeStack.Push(GetProperty(internalProperty, type));
+                    foreach (var nextToken in internalProperty)
                     {
-                        SelectCode(to2);
+                        SelectCode(nextToken);
                     }
                     TypeStack.Pop();
                 }
             }
-            else if (p.Name == "Type")
+            else if (JpToken.Name == "Type")
             {
-                
                 token = token.Next;
-                
-                var data = token.ToObject<JProperty>();
                 var customType = TypeStack.Pop();
+
+                var TokenInfo = token.ToObject<JProperty>();
                 var type = customType.Value.GetType();
 
+                object value = null;
 
-                if (data.Name == "Value")
+                if (TokenInfo.Name == "Value")
                 {
-                    var value = Convert.ChangeType(data.Value, type);
-                    customType.Field?.SetValue(TypeStack.Peek().Value, value);
-                    customType.Property?.SetValue(TypeStack.Peek().Value, value);
+                    value = Convert.ChangeType(TokenInfo.Value, type);
                 }
-                else if (data.Name == "Constructor")
+                else if (TokenInfo.Name == "Constructor")
                 {
                     var ConType = new List<Type>();
-
-                    var t = token.Children();
+                    
                     List<Type> listType = new List<Type>();
                     List<object> listArg = new List<object>();
 
-                    foreach (var item in t.Children())
+                    foreach (var item in token.Children().Children())
                     {
                         var internalProperty = item.ToObject<JProperty>();
                         var types = Type.GetType(internalProperty.Name.Split('$')[0]);
@@ -106,11 +103,9 @@ namespace CustomDesign
                     }
 
                     ConstructorInfo constructor = type.GetConstructor(listType.ToArray());
-                    var value = Convert.ChangeType(constructor?.Invoke(listArg.ToArray()), type);
-
-                    customType.Field?.SetValue(TypeStack.Peek().Value, value);
-                    customType.Property?.SetValue(TypeStack.Peek().Value, value);
+                    value = constructor?.Invoke(listArg.ToArray());
                 }
+                customType.SetValue(TypeStack.Peek().Value, value);
                 TypeStack.Push(customType);
             }
         }

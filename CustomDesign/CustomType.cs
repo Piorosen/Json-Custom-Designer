@@ -28,5 +28,17 @@ namespace CustomDesign
 
         public PropertyInfo Property = null;
         public FieldInfo Field = null;
+
+        public bool SetValue(object obj, object value)
+        {
+            if (Field == null && Property == null)
+            {
+                return false;
+            }
+
+            Field?.SetValue(obj, value);
+            Property?.SetValue(obj, value);
+            return true;
+        }
     }
 }
