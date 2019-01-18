@@ -1,4 +1,4 @@
-﻿namespace CustomDesgin_Test
+﻿namespace CustomDesign.GuiTest
 {
     partial class Form1
     {

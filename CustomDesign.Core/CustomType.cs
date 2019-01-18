@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace CustomDesign.Standard
+namespace CustomDesign.Core
 {
     public class CustomType
     {

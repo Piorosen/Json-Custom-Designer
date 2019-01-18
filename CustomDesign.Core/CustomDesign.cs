@@ -8,7 +8,7 @@ using Newtonsoft;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace CustomDesign.Standard
+namespace CustomDesign.Core
 {
     public class CustomDesign
     {

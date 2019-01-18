@@ -2,8 +2,7 @@
 using System.Drawing;
 using System.Collections.Generic;
 using System.Linq;
-
-namespace CustomDesign.CUITest
+namespace CustomDesign.CuiTest
 {
     class Program
     {

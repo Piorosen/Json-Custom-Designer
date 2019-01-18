@@ -1,13 +1,15 @@
 ﻿using CustomDesign;
+using CustomDesign.Core;
 using System;
+
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace CustomDesgin_Test
+namespace CustomDesign.GuiTest
 {
     public partial class Form1 : Form
     {
-        CustomDesign.CustomDesign design = new CustomDesign.CustomDesign();
+        CustomDesign.Core.CustomDesign design = new CustomDesign.Core.CustomDesign();
 
         public Form1()
         {
