@@ -1,8 +1,7 @@
 ﻿using System;
-
 namespace CustomDesign.Standard
 {
-    public class Class1
+    public struct CustomType
     {
     }
 }

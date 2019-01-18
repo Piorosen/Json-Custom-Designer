@@ -8,7 +8,7 @@ using Newtonsoft;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace CustomDesign
+namespace CustomDesign.Standard
 {
     public class CustomDesign
     {
@@ -44,7 +44,7 @@ namespace CustomDesign
         void SelectCode(JToken token)
         {
             JProperty JpToken = token.ToObject<JProperty>();
-            
+
             if (JpToken.Name == "Field")
             {
                 foreach (var internalField in JpToken.Children().Children())
@@ -75,7 +75,7 @@ namespace CustomDesign
             else if (JpToken.Name == "Value" || JpToken.Name == "Constructor")
             {
                 var customType = TypeStack.Pop();
-                
+
                 var type = customType.Value.GetType();
                 object value = null;
 
@@ -86,7 +86,7 @@ namespace CustomDesign
                 else if (JpToken.Name == "Constructor")
                 {
                     var ConType = new List<Type>();
-                    
+
                     List<Type> listType = new List<Type>();
                     List<object> listArg = new List<object>();
 

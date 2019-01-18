@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace CustomDesign
+namespace CustomDesign.Standard
 {
     public class Observe
     {
@@ -18,14 +18,14 @@ namespace CustomDesign
         {
             return Add(new CustomType(Item, Name));
         }
-        
+
         public bool Delete(Object Item)
         {
             return Delete(new CustomType(Item));
         }
         public bool Delete(CustomType Item)
         {
-            var t = List.First(i => i.Name  == Item.Name);
+            var t = List.First(i => i.Name == Item.Name);
             if (t != null)
             {
                 List.Remove(t);
@@ -39,7 +39,7 @@ namespace CustomDesign
 
         public T2 Change<T1, T2>(T1 t1, T2 t2)
         {
-            return (T2)Convert.ChangeType(t1, t2.GetType()) ;
+            return (T2)Convert.ChangeType(t1, t2.GetType());
         }
 
         public (FieldInfo Field, CustomType Type) GetField(CustomType obj, string Name, BindingFlags flags = BindingFlags.Public | BindingFlags.Instance)
