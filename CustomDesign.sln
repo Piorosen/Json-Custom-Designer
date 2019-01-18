@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomDesgin", "CustomDesign\CustomDesgin.csproj", "{53E40DD1-AA4D-452A-9BBF-A118F51B5C7C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomDesgin.Frame", "CustomDesign\CustomDesgin.Frame.csproj", "{53E40DD1-AA4D-452A-9BBF-A118F51B5C7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomDesgin_Test", "CustomDesign_Test\CustomDesgin_Test.csproj", "{0F0DC726-0CF3-43F4-95E6-56209B952873}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomDesgin.GuiTest", "CustomDesign_Test\CustomDesgin.GuiTest.csproj", "{0F0DC726-0CF3-43F4-95E6-56209B952873}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomDesign.Core", "CustomDesign.Core\CustomDesign.Core.csproj", "{78E9510C-6380-4BDD-AA44-6B28EF95DBCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomDesign.CUITest", "CustomDesign.CUITest\CustomDesign.CUITest.csproj", "{4D82ABE7-BA88-4F3A-9AB8-8CDB17284CFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomDesign.Standard", "CustomDesign.Standard\CustomDesign.Standard.csproj", "{13FCF7A8-8599-4C7A-A6F0-46C79A070A9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{0F0DC726-0CF3-43F4-95E6-56209B952873}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F0DC726-0CF3-43F4-95E6-56209B952873}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F0DC726-0CF3-43F4-95E6-56209B952873}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78E9510C-6380-4BDD-AA44-6B28EF95DBCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78E9510C-6380-4BDD-AA44-6B28EF95DBCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78E9510C-6380-4BDD-AA44-6B28EF95DBCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78E9510C-6380-4BDD-AA44-6B28EF95DBCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D82ABE7-BA88-4F3A-9AB8-8CDB17284CFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D82ABE7-BA88-4F3A-9AB8-8CDB17284CFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D82ABE7-BA88-4F3A-9AB8-8CDB17284CFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D82ABE7-BA88-4F3A-9AB8-8CDB17284CFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13FCF7A8-8599-4C7A-A6F0-46C79A070A9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13FCF7A8-8599-4C7A-A6F0-46C79A070A9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13FCF7A8-8599-4C7A-A6F0-46C79A070A9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13FCF7A8-8599-4C7A-A6F0-46C79A070A9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
