@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Newtonsoft;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Linq;
+
 
 namespace CustomDesign.Core
 {
@@ -14,6 +16,7 @@ namespace CustomDesign.Core
     {
         public Observe Observe = new Observe();
         readonly Stack<CustomType> TypeStack = new Stack<CustomType>();
+        readonly Stack<CustomType> ValueStack = new Stack<CustomType>();
 
         public bool LoadJson(string data)
         {
@@ -75,36 +78,65 @@ namespace CustomDesign.Core
             else if (JpToken.Name == "Value" || JpToken.Name == "Constructor")
             {
                 var customType = TypeStack.Pop();
-
                 var type = customType.Value.GetType();
                 object value = null;
-
                 if (JpToken.Name == "Value")
                 {
                     value = Convert.ChangeType(JpToken.Value, type);
                 }
-                else if (JpToken.Name == "Constructor")
+                else
                 {
-                    var ConType = new List<Type>();
-
-                    List<Type> listType = new List<Type>();
-                    List<object> listArg = new List<object>();
-
-                    foreach (var item in JpToken.Children().Children())
-                    {
-                        var internalProperty = item.ToObject<JProperty>();
-                        var types = Type.GetType(internalProperty.Name.Split('$')[0]);
-
-                        listType.Add(types);
-                        listArg.Add(Convert.ChangeType(internalProperty.Value, types));
-                    }
-
-                    ConstructorInfo constructor = type.GetConstructor(listType.ToArray());
-                    value = constructor?.Invoke(listArg.ToArray());
+                    var list = GetParsing(JpToken);
+                    ConstructorInfo constructor = type.GetConstructor(list.Select((data) => data.type).ToArray());
+                    value = constructor?.Invoke(list.Select((data) => data.value).ToArray());
                 }
+
                 customType.SetValue(TypeStack.Peek().Value, value);
                 TypeStack.Push(customType);
             }
+            else if (JpToken.Name == "CallFunc")
+            {
+                var q = JpToken.Value["Param"];
+                var customType = TypeStack.Peek();
+                var list = GetParsing(q);
+                var type = list.Select((data) => data.type).ToArray();
+                var value = list.Select((data) => data.value).ToArray();
+                MethodInfo t = customType.Type.GetMethod(JpToken.Value["Name"].ToString());
+                t?.Invoke(customType.Value, value.Length == 0 ? null : value);
+            }
+            else if (JpToken.Name == "EventHandler")
+            {
+                var customType = TypeStack.Pop();
+
+                EventInfo info = customType.Type.GetEvent(JpToken.Value["Name"].ToString());
+                MethodInfo minfo = TypeStack.Peek().Type.GetMethod(JpToken.Value["Method"].ToString());
+                Delegate method = Delegate.CreateDelegate(info.EventHandlerType, TypeStack.Peek().Value, minfo);
+                info.AddEventHandler(customType.Value, method);
+                TypeStack.Push(customType);
+            }
+        }
+
+        public CustomType GetFunction(JToken token, CustomType type)
+        {
+
+            return new CustomType(null);
+        }
+
+        public List<(Type type, object value)> GetParsing(JToken token)
+        {
+            var ConType = new List<Type>();
+
+            List<(Type type, object value)> list = new List<(Type, object)>();
+            
+            foreach (var item in token.Children().Children())
+            {
+                var internalProperty = item.ToObject<JProperty>();
+                var types = Type.GetType(internalProperty.Name.Split('$')[0]);
+
+                list.Add((types, Convert.ChangeType(internalProperty.Value, types)));
+            }
+            return list;
+           
         }
 
         public CustomType GetField(JToken token, CustomType type)

@@ -9,12 +9,15 @@ namespace CustomDesign.GuiTest
 {
     public partial class Form1 : Form
     {
-        CustomDesign.Core.CustomDesign design = new CustomDesign.Core.CustomDesign();
+        readonly CustomDesign.Core.CustomDesign design = new CustomDesign.Core.CustomDesign();
+
+        public void Write(object sender, EventArgs e)
+        {
+            Console.WriteLine("Test!!");
+        }
 
         public Form1()
         {
-
-
             InitializeComponent();
             design.Observe.Add(this, Name);
         }
